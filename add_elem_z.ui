@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>300</height>
+    <height>231</height>
    </rect>
   </property>
   <property name="palette">
@@ -88,6 +88,13 @@
    <item row="0" column="1">
     <widget class="QLineEdit" name="name_edit_z"/>
    </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="name_label_z">
+     <property name="text">
+      <string>Наименование:</string>
+     </property>
+    </widget>
+   </item>
    <item row="3" column="0">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
@@ -98,16 +105,6 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="0">
-    <widget class="QLabel" name="name_label_z">
-     <property name="text">
-      <string>Наименование:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="QSpinBox" name="summa_edit_z"/>
-   </item>
    <item row="2" column="0">
     <widget class="QLabel" name="date_label_z">
      <property name="text">
@@ -115,8 +112,11 @@
      </property>
     </widget>
    </item>
+   <item row="1" column="1">
+    <widget class="QSpinBox" name="summa_edit_z"/>
+   </item>
    <item row="2" column="1">
-    <widget class="QDateTimeEdit" name="date_edit_z"/>
+    <widget class="QDateEdit" name="dateEdit"/>
    </item>
   </layout>
  </widget>
