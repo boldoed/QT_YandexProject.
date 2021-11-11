@@ -85,9 +85,6 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="1">
-    <widget class="QLineEdit" name="name_edit_z"/>
-   </item>
    <item row="0" column="0">
     <widget class="QLabel" name="name_label_z">
      <property name="text">
@@ -95,15 +92,8 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="0">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
+   <item row="0" column="1">
+    <widget class="QLineEdit" name="name_edit_z"/>
    </item>
    <item row="2" column="0">
     <widget class="QLabel" name="date_label_z">
@@ -112,47 +102,32 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="1">
-    <widget class="QSpinBox" name="summa_edit_z"/>
-   </item>
    <item row="2" column="1">
-    <widget class="QDateEdit" name="dateEdit"/>
+    <widget class="QDateEdit" name="date_edit_z"/>
+   </item>
+   <item row="1" column="1">
+    <widget class="QSpinBox" name="summa_edit_z">
+     <property name="maximum">
+      <number>999999999</number>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QPushButton" name="ok_btn_z">
+     <property name="text">
+      <string>OK</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="QPushButton" name="cancel_btn_z">
+     <property name="text">
+      <string>Назад</string>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
  <resources/>
- <connections>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>Dialog</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>rejected()</signal>
-   <receiver>Dialog</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

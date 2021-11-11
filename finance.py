@@ -8,32 +8,21 @@ from PyQt5.QtWidgets import QApplication, QDialog, QMainWindow
 from project_db import ProjectDB
 
 
-# VSE_RASHODI = []
-
-
 class MyWidget(QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi('project.ui', self)
-
-        # self.database = ProjectDB('QT_Project_db.db')
+        # подключение БД
         self.connection = sqlite3.connect('QT_Project_db.db')
         self.cursor = self.connection.cursor()
         self.information_k = 0
-        self.popolnenie_btn.clicked.connect(self.popolnit_func)
-        # self.balance.setText(f'     Остаток средств: {self.balance_value} руб.')
         self.Information_btn.clicked.connect(self.information)
         self.information_text.hide()
         self.information_text.setText('Эта программа поможет вам следить за своими финансами, а также правильно ими распоряжаться.')
         self.rashod_btn.clicked.connect(self.rashod_func)
-        self.popolnenie_inf_btn.clicked.connect(self.popolnit_inf)
-
-    #def popolnit(self):
-    #    summa, ok_pressed = QInputDialog.getInt(self, "Пополнение", "Введите сумму пополнения:", 0)
-
-    #    if ok_pressed:
-    #        self.balance_value += summa
-    #        self.balance.setText(f'     Остаток средств: {self.balance_value} руб.')
+        self.popolnenie_btn.clicked.connect(self.popolnit_func)
+        # Обновляем главное окно
+        self.update_main_window()
     
     '''
     информация о приложении
@@ -45,40 +34,53 @@ class MyWidget(QMainWindow):
         else:
             self.information_text.hide()
 
+    '''
+    вызывает окно расходов
+    '''
     def rashod_func(self):
         self.form = AddRashod()
         self.form.exec_()
-
-    def popolnit_inf(self):
+    
+    '''
+    вызывает окно доходов
+    '''
+    def popolnit_func(self):
         self.form = AddPopolnenia(self)
         self.form.exec_()
 
-    def popolnit_func(self):
-        self.form = AddElemZ(self)
-        self.form.exec_()
+    '''
+    сумма расходов
+    '''
+    def rashod_sum(self):
+        vse_rashodi_list = []
+        vse_rashodi = self.cursor.execute("""SELECT summa FROM rashodi""").fetchall()
+        for i in vse_rashodi:
+            vse_rashodi_list.append(int(str(i)[1:-2]))
 
-    # сколько потрачено за месяц (сумма)
-    # def get_month_spent_sum(self):
-    #     elems = self.database.get_month_spent()
-    #     return sum([item.get_sum() for item in elems])
+        return sum(vse_rashodi_list)
 
-    # сколько заработано за месяц (сумма)
-    # def get_month_earned_sum(self):
-    #     items = self.database.get_month_earned()
-    #     return sum([elem.get_sum() for elem in items])
+    '''
+    сумма доходов
+    '''
+    def dohod_sum(self):
+        vse_dohodi_list = []
+        vse_dohodi = self.cursor.execute("""SELECT summa FROM dohodi""").fetchall()
+        for i in vse_dohodi:
+            vse_dohodi_list.append(int(str(i)[1:-2]))
+            
+        return sum(vse_dohodi_list)
 
+    '''
+    обновление главного окна
+    '''
+    def update_main_window(self):
+        self.balance.setText(
+            f'     Остаток средств: {self.dohod_sum() - self.rashod_sum()} руб.')
+        self.dohod.setText(
+            f'     Зачисления: {self.dohod_sum()} руб.')
 
-    # обновление главного окна
-    # def update_main_window(self):
-    #     self.budget_label.setText(
-    #         '     Остаток средств:' +
-    #         f'{self.get_month_earned_sum() - self.get_month_spent_sum()} руб.')
-
-    #     self.popolnenie.setText(
-    #         f'     Зачисления: {self.get_month_earned_sum()} руб.')
-
-    #     self.rashod.setText(
-    #         f'     Расходы: {self.get_month_spent_sum()} руб.')
+        self.rashod.setText(
+            f'     Расходы: {self.rashod_sum()} руб.')
 
 
 
@@ -88,17 +90,24 @@ class AddRashod(QDialog):
     def __init__(self):
         super().__init__()
         uic.loadUi('add_rashodi.ui', self)
+        # подключение БД
         self.connection = sqlite3.connect('QT_Project_db.db')
         self.cursor = self.connection.cursor()
         self.addr.clicked.connect(self.add_elem)
         self.update_rashod()
+        self.update_category_rashod()
 
+    '''
+    вызывает окно добавления элемента
+    '''
     def add_elem(self):
         self.form = AddElem(self)
         self.form.exec_()
         if self.form.ok_pressed:
             self.update_rashod()
             self.update_category_rashod()
+            MyWidget().update_main_window()
+
         
     '''
     обновляет/отображает список расходов
@@ -112,6 +121,10 @@ class AddRashod(QDialog):
             self.rashod_window.setText('')
             self.rashod_window.setText(self.rashod_spisok)
 
+
+    '''
+    обновляет/отображает список расходов по категориям
+    '''
     def update_category_rashod(self):
         self.category_rashod_dict = {}
         self.category_rashod_dict_str = ''
@@ -131,14 +144,18 @@ class AddElem(QDialog):
     def __init__(self, MyWidget):
         super().__init__()
         uic.loadUi('add_elem.ui', self)
+        # подключение БД
         self.connection = sqlite3.connect('QT_Project_db.db')
         self.cursor = self.connection.cursor()
         self.main_window = MyWidget
-        self.ok_btn.clicked.connect(self.close_rashod)
+        self.ok_btn.clicked.connect(self.add_rashod)
         self.cancel_btn.clicked.connect(self.close)
         self.ok_pressed = False
 
-    def close_rashod(self):
+    '''
+    добавляет расход в БД
+    '''
+    def add_rashod(self):
         self.name_ = self.name_edit.text()
         self.summa_ = self.summa_edit.value()
         self.cat_ = self.cat_edit.currentText()
@@ -158,19 +175,71 @@ class AddElem(QDialog):
         self.close()
 
 
-class AddElemZ(QDialog):
-    def __init__(self, MyWidget):
-        super().__init__()
-        uic.loadUi('add_elem_z.ui', self)
-        self.main_window = MyWidget
-
-
 class AddPopolnenia(QDialog):
     def __init__(self, MyWidget):
         super().__init__()
         uic.loadUi('add_popolnenia.ui', self)
+        # подключение БД
+        self.connection = sqlite3.connect('QT_Project_db.db')
+        self.cursor = self.connection.cursor()
         self.main_window = MyWidget
+        self.addp.clicked.connect(self.add_elem_z)
+        self.update_dohod()
 
+    '''
+    вызывает окно добавления элемента
+    '''
+    def add_elem_z(self):
+        self.form = AddElemZ(self)
+        self.form.exec_()
+        if self.form.ok_pressed_z:
+            self.update_dohod()
+            MyWidget().update_main_window()
+        
+    '''
+    обновляет/отображает список доходов
+    '''
+    def update_dohod(self):
+        self.dohod_spisok = ''
+        self.spisok_dohodov = self.cursor.execute("""SELECT * FROM dohodi""").fetchall()
+        for i in self.spisok_dohodov:
+            self.dohod_spisok += (str(', '.join([str(j) for j in i][1:])) + '\n')
+        if self.dohod_window.toPlainText() != self.dohod_spisok:
+            self.dohod_window.setText('')
+            self.dohod_window.setText(self.dohod_spisok)
+
+
+class AddElemZ(QDialog):
+    def __init__(self, MyWidget):
+        super().__init__()
+        uic.loadUi('add_elem_z.ui', self)
+        # подключение БД
+        self.connection = sqlite3.connect('QT_Project_db.db')
+        self.cursor = self.connection.cursor()
+        self.main_window = MyWidget
+        self.ok_btn_z.clicked.connect(self.add_dohod)
+        self.cancel_btn_z.clicked.connect(self.close)
+        self.ok_pressed_z = False
+
+    '''
+    добавляет доход в БД
+    '''
+    def add_dohod(self):
+        self.name_ = self.name_edit_z.text()
+        self.summa_ = self.summa_edit_z.value()
+        self.date_ = self.date_edit_z.text()
+        dohod_inf = []
+        if self.name_ != '':
+            dohod_inf.append(str(self.name_))
+        if self.summa_ != 0:
+            dohod_inf.append(int(str(self.summa_)))
+        dohod_inf.append(self.date_)
+        if len(dohod_inf) == 3:
+            self.cursor.execute(f"""INSERT INTO dohodi(name, summa, date)
+            VALUES(?, ?, ?)""", dohod_inf)
+            self.connection.commit()
+        self.ok_pressed_z = True
+        self.close()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

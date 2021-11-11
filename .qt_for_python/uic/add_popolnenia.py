@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(400, 300)
+        Dialog.resize(400, 301)
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -37,11 +37,9 @@ class Ui_Dialog(object):
         Dialog.setPalette(palette)
         self.gridLayout = QtWidgets.QGridLayout(Dialog)
         self.gridLayout.setObjectName("gridLayout")
-        self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
-        self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
-        self.buttonBox.setObjectName("buttonBox")
-        self.gridLayout.addWidget(self.buttonBox, 2, 0, 1, 1)
+        self.dohod_window = QtWidgets.QTextBrowser(Dialog)
+        self.dohod_window.setObjectName("dohod_window")
+        self.gridLayout.addWidget(self.dohod_window, 1, 0, 1, 1)
         self.vse_popolnenia = QtWidgets.QLabel(Dialog)
         font = QtGui.QFont()
         font.setFamily("Arial")
@@ -49,16 +47,15 @@ class Ui_Dialog(object):
         self.vse_popolnenia.setFont(font)
         self.vse_popolnenia.setObjectName("vse_popolnenia")
         self.gridLayout.addWidget(self.vse_popolnenia, 0, 0, 1, 1)
-        self.popolnenia_window = QtWidgets.QTextBrowser(Dialog)
-        self.popolnenia_window.setObjectName("popolnenia_window")
-        self.gridLayout.addWidget(self.popolnenia_window, 1, 0, 1, 1)
+        self.addp = QtWidgets.QPushButton(Dialog)
+        self.addp.setObjectName("addp")
+        self.gridLayout.addWidget(self.addp, 2, 0, 1, 1)
 
         self.retranslateUi(Dialog)
-        self.buttonBox.accepted.connect(Dialog.accept)
-        self.buttonBox.rejected.connect(Dialog.reject)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
         self.vse_popolnenia.setText(_translate("Dialog", "Все доходы:"))
+        self.addp.setText(_translate("Dialog", "Добавить"))
