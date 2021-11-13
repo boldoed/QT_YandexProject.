@@ -178,6 +178,13 @@
       </property>
      </widget>
     </item>
+    <item row="11" column="0">
+     <widget class="QPushButton" name="update_btn">
+      <property name="text">
+       <string>Обновить</string>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">

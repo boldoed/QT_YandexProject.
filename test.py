@@ -5,6 +5,8 @@ from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem
 
+import antigravity
+
 
 class MyWidget(QMainWindow):
     def __init__(self):

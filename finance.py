@@ -1,11 +1,9 @@
-from sqlite3.dbapi2 import Cursor
 import sys
 import sqlite3
-
+import datetime as dt
 from PyQt5 import uic
+from sqlite3.dbapi2 import Cursor
 from PyQt5.QtWidgets import QApplication, QDialog, QMainWindow
-
-from project_db import ProjectDB
 
 
 class MyWidget(QMainWindow):
@@ -21,9 +19,16 @@ class MyWidget(QMainWindow):
         self.information_text.setText('Эта программа поможет вам следить за своими финансами, а также правильно ими распоряжаться.')
         self.rashod_btn.clicked.connect(self.rashod_func)
         self.popolnenie_btn.clicked.connect(self.popolnit_func)
+        self.update_btn.clicked.connect(self.update_func)
         # Обновляем главное окно
         self.update_main_window()
     
+    '''
+    обновляет главное окно
+    '''
+    def update_func(self):
+        self.update_main_window()
+
     '''
     информация о приложении
     '''
@@ -184,7 +189,8 @@ class AddPopolnenia(QDialog):
         self.cursor = self.connection.cursor()
         self.main_window = MyWidget
         self.addp.clicked.connect(self.add_elem_z)
-        self.update_dohod()
+        # self.update_dohod()
+
 
     '''
     вызывает окно добавления элемента
@@ -240,6 +246,15 @@ class AddElemZ(QDialog):
             self.connection.commit()
         self.ok_pressed_z = True
         self.close()
+
+
+class Date:
+    def __init__(self):
+        print(dt.datetime.now().date())
+
+    def now_date(self):
+        pass
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
