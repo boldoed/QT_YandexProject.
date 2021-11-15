@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'c:\Users\dania\OneDrive\Рабочий стол\QT_YandexProject\add_popolnenia.ui'
+# Form implementation generated from reading ui file 'c:\Users\dania\OneDrive\Рабочий стол\QT_YandexProject\graf_ui.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(400, 301)
+        Dialog.resize(729, 632)
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -37,25 +37,18 @@ class Ui_Dialog(object):
         Dialog.setPalette(palette)
         self.gridLayout = QtWidgets.QGridLayout(Dialog)
         self.gridLayout.setObjectName("gridLayout")
-        self.dohod_window = QtWidgets.QTextBrowser(Dialog)
-        self.dohod_window.setObjectName("dohod_window")
-        self.gridLayout.addWidget(self.dohod_window, 1, 0, 1, 1)
-        self.vse_popolnenia = QtWidgets.QLabel(Dialog)
-        font = QtGui.QFont()
-        font.setFamily("Arial")
-        font.setPointSize(14)
-        self.vse_popolnenia.setFont(font)
-        self.vse_popolnenia.setObjectName("vse_popolnenia")
-        self.gridLayout.addWidget(self.vse_popolnenia, 0, 0, 1, 1)
-        self.addp = QtWidgets.QPushButton(Dialog)
-        self.addp.setObjectName("addp")
-        self.gridLayout.addWidget(self.addp, 2, 0, 1, 1)
+        self.graph_label = QtWidgets.QLabel(Dialog)
+        self.graph_label.setText("")
+        self.graph_label.setObjectName("graph_label")
+        self.gridLayout.addWidget(self.graph_label, 0, 0, 1, 1)
+        self.back_btn = QtWidgets.QPushButton(Dialog)
+        self.back_btn.setObjectName("back_btn")
+        self.gridLayout.addWidget(self.back_btn, 1, 0, 1, 1)
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Пополнения"))
-        self.vse_popolnenia.setText(_translate("Dialog", "Все доходы:"))
-        self.addp.setText(_translate("Dialog", "Добавить"))
+        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
+        self.back_btn.setText(_translate("Dialog", "Назад"))

@@ -75,7 +75,7 @@
    </palette>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Добавить расход</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="2" column="1">

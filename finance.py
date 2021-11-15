@@ -1,9 +1,15 @@
 import sys
 import sqlite3
 import datetime as dt
+from PyQt5.sip import delete
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+
 from PyQt5 import uic
+from PyQt5.QtGui import QPixmap
 from sqlite3.dbapi2 import Cursor
 from PyQt5.QtWidgets import QApplication, QDialog, QMainWindow
+from PyQt5 import QtCore
 
 
 class MyWidget(QMainWindow):
@@ -88,9 +94,6 @@ class MyWidget(QMainWindow):
             f'     Расходы: {self.rashod_sum()} руб.')
 
 
-
-
-
 class AddRashod(QDialog):
     def __init__(self):
         super().__init__()
@@ -99,8 +102,11 @@ class AddRashod(QDialog):
         self.connection = sqlite3.connect('QT_Project_db.db')
         self.cursor = self.connection.cursor()
         self.addr.clicked.connect(self.add_elem)
+        self.graph_btn.clicked.connect(self.graph_window)
+        self.rashod_window.itemDoubleClicked.connect(self.delete_func)
         self.update_rashod()
         self.update_category_rashod()
+        
 
     '''
     вызывает окно добавления элемента
@@ -109,23 +115,35 @@ class AddRashod(QDialog):
         self.form = AddElem(self)
         self.form.exec_()
         if self.form.ok_pressed:
-            self.update_rashod()
+            self.add_new_rashod()
             self.update_category_rashod()
-            MyWidget().update_main_window()
+            #######MyWidget.update_main_window(self)
+    
+    '''
+    вызывает окно графика
+    '''
+    def graph_window(self):
+        self.form = GraphWindow(self)
+        self.form.exec_()
 
-        
     '''
     обновляет/отображает список расходов
     '''
     def update_rashod(self):
-        self.rashod_spisok = ''
+        self.rashod_spisok = []
         self.spisok_rashodov = self.cursor.execute("""SELECT * FROM rashodi""").fetchall()
         for i in self.spisok_rashodov:
-            self.rashod_spisok += (str(', '.join([str(j) for j in i][1:])) + '\n')
-        if self.rashod_window.toPlainText() != self.rashod_spisok:
-            self.rashod_window.setText('')
-            self.rashod_window.setText(self.rashod_spisok)
+            self.rashod_window.addItem(str(', '.join([str(j) for j in i][1:])))
 
+    '''
+    добовляет элемент в список расходов
+    '''
+    def add_new_rashod(self):
+        self.rashod_spisok = []
+        self.spisok_rashodov = self.cursor.execute("""SELECT * FROM rashodi""").fetchall()
+        elem = self.spisok_rashodov[-1][1:]
+        elem = ', '.join([str(i) for i in elem])
+        self.rashod_window.addItem(elem)
 
     '''
     обновляет/отображает список расходов по категориям
@@ -140,9 +158,14 @@ class AddRashod(QDialog):
                 categoryes = self.category_rashod_dict.get(i[-1])
                 categoryes.append(i[1:-1])
         for key, value in self.category_rashod_dict.items():
-            value = " \n ".join([str(i) for i in value])  
-            self.category_rashod_dict_str += f'''---{key}--- \n {value} \n'''
+            for elem_cat in value:
+                value = f'{str(elem_cat[0])}, {str(elem_cat[1])}, {str(elem_cat[2])}'
+                self.category_rashod_dict_str += f'''---{key}--- \n {value} \n'''
         self.categories_window.setText(self.category_rashod_dict_str)
+
+    # def delete_func(self):
+    #     self.form = DeleteFunc(self)
+    #     self.form.exec_()
  
 
 class AddElem(QDialog):
@@ -156,6 +179,8 @@ class AddElem(QDialog):
         self.ok_btn.clicked.connect(self.add_rashod)
         self.cancel_btn.clicked.connect(self.close)
         self.ok_pressed = False
+        today = QtCore.QDate.currentDate()
+        self.date_edit.setDate(today)
 
     '''
     добавляет расход в БД
@@ -189,8 +214,7 @@ class AddPopolnenia(QDialog):
         self.cursor = self.connection.cursor()
         self.main_window = MyWidget
         self.addp.clicked.connect(self.add_elem_z)
-        # self.update_dohod()
-
+        self.update_dohod()
 
     '''
     вызывает окно добавления элемента
@@ -200,7 +224,7 @@ class AddPopolnenia(QDialog):
         self.form.exec_()
         if self.form.ok_pressed_z:
             self.update_dohod()
-            MyWidget().update_main_window()
+            #########MyWidget.update_main_window(self)
         
     '''
     обновляет/отображает список доходов
@@ -226,6 +250,8 @@ class AddElemZ(QDialog):
         self.ok_btn_z.clicked.connect(self.add_dohod)
         self.cancel_btn_z.clicked.connect(self.close)
         self.ok_pressed_z = False
+        today = QtCore.QDate.currentDate()
+        self.date_edit_z.setDate(today)
 
     '''
     добавляет доход в БД
@@ -248,13 +274,65 @@ class AddElemZ(QDialog):
         self.close()
 
 
-class Date:
-    def __init__(self):
-        print(dt.datetime.now().date())
+class GraphWindow(QDialog):
+    def __init__(self, MyWidget):
+        super().__init__()
+        uic.loadUi('graph_ui.ui', self)
+        # подключение БД
+        self.connection = sqlite3.connect('QT_Project_db.db')
+        self.cursor = self.connection.cursor()
+        self.back_btn.clicked.connect(self.close)
+        self.cat_name_spisok = []
+        self.cat_sum_spisok = []
+        self.graf_categ()
 
-    def now_date(self):
-        pass
+    '''
+    берет информацию из БД
+    '''
+    def graf_categ(self):
+        self.rashod_spisok = ''
+        self.spisok_rashodov = self.cursor.execute("""SELECT * FROM rashodi""").fetchall()
+        self.category_rashod_dict = {}
+        for i in self.spisok_rashodov:
+            if i[-1] not in self.category_rashod_dict:
+                self.category_rashod_dict[i[-1]] = [i[1:-1]]
+            else:
+                categoryes = self.category_rashod_dict.get(i[-1])
+                categoryes.append(i[1:-1])
+        for key, value in self.category_rashod_dict.items():
+            self.cat_name_spisok.append(key)
+            cat_sum = 0
+            for elem_cat in value:
+                cat_sum += int(elem_cat[1])
+            self.cat_sum_spisok.append(cat_sum)
+        self.build_a_graph()
 
+    '''
+    строит график
+    '''
+    def build_a_graph(self):
+        dpi = 80
+        fig = plt.figure(dpi = dpi, figsize = (720 / dpi, 384 / dpi))
+        mpl.rcParams.update({'font.size': 9})
+        plt.title('График расходов по категориям')
+        plt.pie(
+            self.cat_sum_spisok, autopct='%.1f', radius = 1.2,
+            explode = [0] + [0 for _ in range(len(self.cat_name_spisok) - 1)])  
+        plt.legend(
+            bbox_to_anchor = (-0.6, 0.615, 0, 0),
+            loc = 'lower left', labels = self.cat_name_spisok)   
+        fig.savefig('graph_pie.png')
+        pixmap = QPixmap('graph_pie.png')
+        self.graph_label.setPixmap(pixmap)
+
+# class DeleteFunc(QDialog):
+#     def __init__(self):
+#         super().__init__()
+#         uic.loadUi('delete_item.ui', self)
+#         self.cancel_btn.clicked.connect(self.close)
+#         # подключение БД
+#         self.connection = sqlite3.connect('QT_Project_db.db')
+#         self.cursor = self.connection.cursor()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

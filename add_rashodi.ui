@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>734</width>
-    <height>647</height>
+    <height>616</height>
    </rect>
   </property>
   <property name="palette">
@@ -75,7 +75,7 @@
    </palette>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Расходы</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="0" column="0">
@@ -92,7 +92,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="graf">
+          <widget class="QPushButton" name="graph_btn">
            <property name="text">
             <string>График</string>
            </property>
@@ -120,7 +120,7 @@
      <item row="2" column="0">
       <layout class="QHBoxLayout" name="horizontalLayout_8">
        <item>
-        <widget class="QTextBrowser" name="rashod_window"/>
+        <widget class="QListWidget" name="rashod_window"/>
        </item>
        <item>
         <widget class="QTextBrowser" name="categories_window"/>

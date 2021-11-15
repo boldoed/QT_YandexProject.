@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_add_rashod(object):
     def setupUi(self, add_rashod):
         add_rashod.setObjectName("add_rashod")
-        add_rashod.resize(734, 647)
+        add_rashod.resize(734, 616)
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -46,9 +46,9 @@ class Ui_add_rashod(object):
         self.addr = QtWidgets.QPushButton(add_rashod)
         self.addr.setObjectName("addr")
         self.horizontalLayout_5.addWidget(self.addr)
-        self.graf = QtWidgets.QPushButton(add_rashod)
-        self.graf.setObjectName("graf")
-        self.horizontalLayout_5.addWidget(self.graf)
+        self.graph_btn = QtWidgets.QPushButton(add_rashod)
+        self.graph_btn.setObjectName("graph_btn")
+        self.horizontalLayout_5.addWidget(self.graph_btn)
         self.verticalLayout_3.addLayout(self.horizontalLayout_5)
         self.gridLayout.addLayout(self.verticalLayout_3, 3, 0, 1, 1)
         self.vse_rashodi = QtWidgets.QLabel(add_rashod)
@@ -62,7 +62,7 @@ class Ui_add_rashod(object):
         self.gridLayout.addWidget(self.vse_rashodi, 0, 0, 1, 1)
         self.horizontalLayout_8 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_8.setObjectName("horizontalLayout_8")
-        self.rashod_window = QtWidgets.QTextBrowser(add_rashod)
+        self.rashod_window = QtWidgets.QListWidget(add_rashod)
         self.rashod_window.setObjectName("rashod_window")
         self.horizontalLayout_8.addWidget(self.rashod_window)
         self.categories_window = QtWidgets.QTextBrowser(add_rashod)
@@ -98,9 +98,9 @@ class Ui_add_rashod(object):
 
     def retranslateUi(self, add_rashod):
         _translate = QtCore.QCoreApplication.translate
-        add_rashod.setWindowTitle(_translate("add_rashod", "Dialog"))
+        add_rashod.setWindowTitle(_translate("add_rashod", "Расходы"))
         self.addr.setText(_translate("add_rashod", "Добавить"))
-        self.graf.setText(_translate("add_rashod", "График"))
+        self.graph_btn.setText(_translate("add_rashod", "График"))
         self.vse_rashodi.setText(_translate("add_rashod", "     Расходы: "))
         self.all_rashod.setText(_translate("add_rashod", "Все расходы:"))
         self.categories.setText(_translate("add_rashod", "Расходы по категориям:"))

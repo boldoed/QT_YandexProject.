@@ -75,7 +75,7 @@
    </palette>
   </property>
   <property name="windowTitle">
-   <string>Расходы</string>
+   <string>Финансы</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QFormLayout" name="formLayout">
@@ -171,17 +171,20 @@
       </property>
      </widget>
     </item>
-    <item row="10" column="0">
+    <item row="12" column="0">
      <widget class="QPushButton" name="Information_btn">
       <property name="text">
-       <string>Справка</string>
+       <string>ℹ</string>
       </property>
      </widget>
     </item>
-    <item row="11" column="0">
+    <item row="13" column="0">
      <widget class="QPushButton" name="update_btn">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
       <property name="text">
-       <string>Обновить</string>
+       <string>🔄</string>
       </property>
      </widget>
     </item>

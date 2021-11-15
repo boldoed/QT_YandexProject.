@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>241</height>
+    <width>384</width>
+    <height>121</height>
    </rect>
   </property>
   <property name="palette">
@@ -75,54 +75,27 @@
    </palette>
   </property>
   <property name="windowTitle">
-   <string>Добавить доход</string>
+   <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="1" column="0">
-    <widget class="QLabel" name="summa_label_z">
+    <widget class="QPushButton" name="ok_btn">
      <property name="text">
-      <string>Сумма:</string>
+      <string>Да</string>
      </property>
     </widget>
-   </item>
-   <item row="0" column="0">
-    <widget class="QLabel" name="name_label_z">
-     <property name="text">
-      <string>Наименование:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="1">
-    <widget class="QLineEdit" name="name_edit_z"/>
-   </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="date_label_z">
-     <property name="text">
-      <string>Дата:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="1">
-    <widget class="QDateEdit" name="date_edit_z"/>
    </item>
    <item row="1" column="1">
-    <widget class="QSpinBox" name="summa_edit_z">
-     <property name="maximum">
-      <number>999999999</number>
+    <widget class="QPushButton" name="close_btn">
+     <property name="text">
+      <string>Нет</string>
      </property>
     </widget>
    </item>
-   <item row="3" column="0">
-    <widget class="QPushButton" name="ok_btn_z">
+   <item row="0" column="0" colspan="2">
+    <widget class="QLabel" name="what_label">
      <property name="text">
-      <string>OK</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0">
-    <widget class="QPushButton" name="cancel_btn_z">
-     <property name="text">
-      <string>Назад</string>
+      <string>Вы точно хотите удалить?</string>
      </property>
     </widget>
    </item>
