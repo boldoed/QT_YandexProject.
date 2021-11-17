@@ -78,8 +78,12 @@
    <string>Пополнения</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="1" column="0">
-    <widget class="QTextBrowser" name="dohod_window"/>
+   <item row="2" column="0">
+    <widget class="QPushButton" name="addp">
+     <property name="text">
+      <string>Добавить</string>
+     </property>
+    </widget>
    </item>
    <item row="0" column="0">
     <widget class="QLabel" name="vse_popolnenia">
@@ -94,12 +98,8 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="0">
-    <widget class="QPushButton" name="addp">
-     <property name="text">
-      <string>Добавить</string>
-     </property>
-    </widget>
+   <item row="1" column="0">
+    <widget class="QListWidget" name="dohod_window"/>
    </item>
   </layout>
  </widget>

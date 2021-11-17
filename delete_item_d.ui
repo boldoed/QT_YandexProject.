@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>384</width>
-    <height>121</height>
+    <width>381</width>
+    <height>113</height>
    </rect>
   </property>
   <property name="palette">
@@ -78,6 +78,13 @@
    <string>Удаление</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QLabel" name="what_label">
+     <property name="text">
+      <string>Вы точно хотите удалить?</string>
+     </property>
+    </widget>
+   </item>
    <item row="1" column="0">
     <widget class="QPushButton" name="ok_btn">
      <property name="text">
@@ -89,13 +96,6 @@
     <widget class="QPushButton" name="close_btn">
      <property name="text">
       <string>Нет</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="0" colspan="2">
-    <widget class="QLabel" name="what_label">
-     <property name="text">
-      <string>Вы точно хотите удалить?</string>
      </property>
     </widget>
    </item>
