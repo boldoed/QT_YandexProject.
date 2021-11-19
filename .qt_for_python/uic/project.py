@@ -100,7 +100,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Финансы"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Финансовый калькулятор"))
         self.balance.setText(_translate("MainWindow", "     Остаток средств:"))
         self.rashod.setText(_translate("MainWindow", "     Расходы: 0 руб."))
         self.rashod_btn.setText(_translate("MainWindow", "Подробнее"))
